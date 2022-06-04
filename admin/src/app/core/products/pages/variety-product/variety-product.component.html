@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+            <div class="m-md-3">
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title font-weight-bold">Variedades del Producto {{ product.title }}</h4>
+                        <a routerLink="/dashboard/products" class="link-primary mb-4"><i class="fa fa-reply m-r-10"></i>Regresar</a>
+                    </div>
+                    <form autocomplete="off">
+                        <div class="row form-group mb-2">
+                            <div class="col-md-3 mb-2">
+                                <input [(ngModel)]="product.title_variety" name="title_variety" class="form-control" type="text" placeholder="Titulo variedad"/>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <div class="input-group">
+                                    <input [(ngModel)]="new_variety" name="new_variety" class="form-control" placeholder="Ingrese una Variedad" type="text">
+                                    <span class="input-group-btn">
+                                        <button (click)="add_variety()" style="height: 100%;" class="btn btn-info" type="button">Agregar</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <button (click)="save()" *ngIf="!load_btn" class="btn btn-primary" type="submit"><i class="fa fa-save mr-1"></i> Guardar</button>
+                                <button *ngIf="load_btn" class="btn btn-primary" type="button" disabled><i class="spinner-border spinner-border-sm me-2"></i>Cargando...</button>
+                            </div>
+                        </div>
+                    </form>   
+                </div>
+                <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+                    <label (click)="default_items('')"  class="btn btn-primary btn-sm">
+                        <input type="radio"> Nuevo
+                    </label>
+                    <label (click)="default_items('clothes')" class="btn btn-primary btn-sm">
+                      <input type="radio"> General
+                    </label>
+                    <label (click)="default_items('pants')" class="btn btn-primary btn-sm">
+                        <input type="radio"> Pantalones
+                      </label>
+                    <label (click)="default_items('shoes')" class="btn btn-primary btn-sm">
+                      <input type="radio"> Calzado
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 table-responsive">
+                        <table class="table table-bordered color-table inverse-table">
+                            <thead>
+                                <tr>
+                                    <th>Items</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+
+                            <ng-container *ngIf="load_data">
+                                <tbody>
+                                    <td colspan="8"><span>Cargando...</span></td>
+                                </tbody>
+                            </ng-container>
+
+                            <ng-container *ngIf="!load_data">
+                                <tbody *ngIf="product.items_variety.length === 0">
+                                    <tr>
+                                       <td colspan="3">
+                                          No hay items disponibles.
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                                 <tbody *ngIf="product.items_variety.length >= 1">
+                                    <tr *ngFor="let item of product.items_variety; let i = index">
+                                       <td>{{ item.name }}</td>
+                                       <td><a (click)="delete_variety(i)" class="text-danger"><i class="fa fa-times"></i></a></td>
+                                    </tr>
+                                 </tbody>
+                            </ng-container>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col">
+                                <img [src]="path + product.image" style="max-width: 264px">
+                            </div>
+                            <div class="col">
+                                <ul>
+                                    <li>{{ product.title }}</li>
+                                    <li>{{ product.category?.title || 'No disponible' }}</li>
+                                    <li>{{ product.price }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>

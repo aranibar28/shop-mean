@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body m-md-2"> 
+            <div class="d-flex justify-content-between">
+                <h4 class="card-title font-weight-bold">Actualizar Cliente</h4>
+                <a routerLink="/dashboard/customers" class="link-primary mb-4"><i class="fa fa-reply m-r-10"></i>Regresar</a>
+            </div>        
+            <form (ngSubmit)="update()" [formGroup]="myForm" class="form" autocomplete="off">
+                <div class="row form-group">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label>Nombres</label>
+                        <input formControlName="first_name" type="text" class="form-control">
+                        <small *ngIf="validate('first_name')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label>Apellidos</label>
+                        <input formControlName="last_name" type="text" class="form-control">
+                        <small *ngIf="validate('last_name')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4">
+                        <label>DNI</label>
+                        <input formControlName="dni" type="number" class="form-control">
+                        <small *ngIf="validate('dni')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label>Email</label>
+                        <input formControlName="email" type="text" class="form-control">
+                        <small *ngIf="validate('email')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label>Password</label>
+                        <input id="input_password" type="password" class="form-control" placeholder="Nuevo Password">
+                        <input formControlName="password" type="password" class="form-control d-none">
+                        <small *ngIf="validate('password')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Teléfono</label>
+                        <input formControlName="phone" type="number" class="form-control">
+                        <small *ngIf="validate('phone')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label>Género</label>
+                        <select formControlName="genre" class="form-control">
+                          <option value="" disabled selected>Seleccionar</option>
+                          <option value="Masculino">Masculino</option>
+                          <option value="Femenino">Femenino</option>
+                        </select>
+                        <small *ngIf="validate('genre')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Fecha Nacimiento</label>
+                        <input formControlName="birthday" type="date" class="form-control">
+                        <small *ngIf="validate('birthday')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                </div>
+                <button *ngIf="!load_btn" type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10 mt-2">
+                    <i class="fa fa-save m-r-10"></i>Guardar
+                </button>
+                <button *ngIf="load_btn" type="button" class="btn btn-warning btn-block waves-effect waves-light m-r-10 mt-2" disabled>
+                    <i class="fa fa-refresh fa-spin m-r-10"></i>Guardando...
+                </button>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>

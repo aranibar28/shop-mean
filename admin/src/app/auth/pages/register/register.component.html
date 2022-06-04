@@ -1,0 +1,36 @@
+<section id="wrapper">
+    <div class="login-register d-flex align-items-center px-4">
+        <div class="login-box card">
+            <div class="card-body">
+                <form (ngSubmit)="register()" [formGroup]="registerForm" autocomplete="off" class="form-horizontal form-material">
+                    <h3 class="box-title text-center">Registrar</h3>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input formControlName="first_name" class="form-control" type="text" placeholder="Nombres">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input formControlName="last_name" class="form-control" type="text" placeholder="Apellidos">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input formControlName="email" class="form-control" type="text" placeholder="Correo Electrónico">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input formControlName="password" class="form-control" type="password" placeholder="Contraseña">
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <div class="col-xs-12">
+                            <button class="btn btn-info btn-block text-uppercase waves-effect waves-light" type="submit">Registar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h3 class="card-title mb-0"><span class="lstick"></span>Lista de Clientes</h3>
+                <div>
+                    <label class="mr-2"><input (keyup)="filter('email')" [(ngModel)]="filter_email" name="filter_firt_name" type="search" class="form-control" placeholder="Email"></label>
+                    <label><input (keyup)="filter('first_name')" [(ngModel)]="filter_firt_name" name="filter_firt_name" type="search" class="form-control" placeholder="Nombres"></label>
+                    <button class="btn btn-success mr-2 mx-md-3" type="button"><i class="fa fa-file-excel-o mr-1"></i> Excel</button>
+                    <button routerLink="create" class="btn btn-primary" type="button"><i class="fa fa-plus mr-1"></i> Nuevo</button>
+                </div>
+            </div>
+            <div>  
+                <div class="table-responsive">
+                    <table class="table table-bordered color-table inverse-table">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Email</th>
+                                <th>Género</th>
+                                <th>Creado</th>
+                                <th class="w-1">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <ng-container *ngIf="load_data">
+                            <tbody>
+                                <td colspan="8"><span>Cargando...</span></td>
+                            </tbody>
+                        </ng-container>
+
+                        <ng-container *ngIf="!load_data">
+                            <tbody *ngIf="this.customers.length === 0">
+                                <td colspan="8"><span>No hay resultados.</span></td>
+                            </tbody>
+                            <tbody>
+                                <tr *ngFor="let item of customers | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+                                    <td>{{ item.first_name }}, {{ item.last_name }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.genre || "No definido"}}</td>
+                                    <td>{{ item.created_at | date: 'dd/MM/yy - h:mm a' }}</td>
+                                    <td>
+                                        <a [routerLink]="['/dashboard/customers/update', item.id]"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a (click)="delete_data(item.id, item.first_name)"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+

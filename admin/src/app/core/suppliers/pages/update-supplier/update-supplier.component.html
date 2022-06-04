@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body m-md-2"> 
+            <div class="d-flex justify-content-between">
+                <h4 class="card-title font-weight-bold">Actualizar Proveedor</h4>
+                <a routerLink="/dashboard/suppliers" class="link-primary mb-4"><i class="fa fa-reply m-r-10"></i>Regresar</a>
+            </div>        
+            <form (ngSubmit)="update()" [formGroup]="myForm" class="form" autocomplete="off">
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label>Compañia</label>
+                        <input formControlName="company" type="text" class="form-control">
+                        <small *ngIf="validate('company')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Representante Legal</label>
+                        <input formControlName="manager" type="text" class="form-control">
+                        <small *ngIf="validate('manager')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4">
+                        <label>RUC</label>
+                        <input formControlName="ruc" type="number" class="form-control">
+                        <small *ngIf="validate('ruc')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label>Correo Electrónico</label>
+                        <input formControlName="email" type="text" class="form-control">
+                        <small *ngIf="validate('email')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Teléfono</label>
+                        <input formControlName="phone" type="number" class="form-control">
+                        <small *ngIf="validate('phone')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-4">
+                        <label>DNI</label>
+                        <input formControlName="dni" type="number" class="form-control">
+                        <small *ngIf="validate('dni')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label>Dirección</label>
+                        <input formControlName="direction" type="text" class="form-control">
+                        <small *ngIf="validate('direction')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                </div>
+                <button *ngIf="!load_btn" type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10 mt-2">
+                    <i class="fa fa-save m-r-10"></i>Guardar
+                </button>
+                <button *ngIf="load_btn" type="button" class="btn btn-warning btn-block waves-effect waves-light m-r-10 mt-2" disabled>
+                    <i class="fa fa-refresh fa-spin m-r-10"></i>Guardando...
+                </button>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>

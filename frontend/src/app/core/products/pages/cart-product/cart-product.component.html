@@ -1,0 +1,282 @@
+<nav class="bg-secondary mb-3" aria-label="breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb breadcrumb-alt mb-0">
+        <li class="breadcrumb-item">
+          <a routerLink="/"><i class="cxi-home"></i></a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+      </ol>
+    </div>
+</nav>
+
+<section class="container pt-3 pt-md-4 pb-3 pb-sm-4 pb-lg-5 mb-4">
+    <div class="row">
+
+      <!-- Checkout content -->
+      <div class="col-lg-8 pr-lg-6">
+        <div class="d-flex align-items-center justify-content-between pb-2 mb-4">
+          <h1 class="mb-0">Checkout</h1>
+          <a routerLink="/products"><strong>Regresar a la Tienda</strong></a>
+        </div>
+
+        <hr class="border-top-0 border-bottom pt-2 mb-4">
+
+        <!-- Order review -->
+        <h2 class="h4 mb-4">1. Revisión del pedido</h2>
+        
+        <ng-container *ngIf="load_data">
+          <div class="row">
+            <div class="col-12 text-center">
+              <span>Cargando...</span>
+            </div>
+          </div>
+        </ng-container>
+        
+
+        <ng-container *ngIf="!load_data">
+          <div *ngIf="cart_items.length == 0" class="bg-secondary rounded mb-5 p-5">
+            <div class="row">
+              <div class="col d-flex justify-content-center align-items-center">
+                <div>
+                  <h5 class="mb-0">Tu carrito esta vacío. 🥺</h5>
+                  <dd><a routerLink="/products">Seguir comprando...</a></dd>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="cart_items.length >= 1" class="bg-secondary rounded mb-5">
+            <div *ngFor="let item of cart_items" class="media px-2 px-sm-4 py-4 border-bottom">
+              <a [routerLink]="'/products/'+item.product.slug" style="min-width: 80px;">
+                <img [src]="path + item.product.image" width="80" alt="Product thumb">
+              </a>
+              <div class="media-body w-100 pl-3">
+                <div class="d-sm-flex">
+                  <div class="pr-sm-3 w-100" style="max-width: 16rem;">
+                    <h3 class="font-size-sm mb-3">
+                      <a [routerLink]="'/products/'+item.product.slug" class="nav-link font-weight-bold">{{ item.product.title }}</a>
+                    </h3>
+                    <ul class="list-unstyled font-size-xs mt-n2 mb-2">
+                      <!-- <li class="mb-0"><span class="text-muted">Color:</span> Pink</li> -->
+                      <li class="mb-0"><span class="text-muted">{{ item.product.title_variety }}: </span>{{ item.variety }}</li>
+                    </ul>
+                  </div>
+                  <div *ngIf="!active" class="d-flex pr-sm-3">
+                    <input [(ngModel)]="item.quantity" name="quantity" type="number" class="form-control form-control-sm bg-light mr-3" style="width: 4.5rem;" [value]="item.quantity">
+                    <div class="text-nowrap pt-2"><strong class="text-muted">{{ item.product.price | currency: "S/. " }}</strong></div>
+                  </div>
+                  <div *ngIf="active" class="d-flex pr-sm-3">
+                    <input [(ngModel)]="item.quantity" name="quantity" type="number" class="form-control form-control-sm bg-light mr-3" style="width: 4.5rem;" [value]="item.quantity">
+                    <div class="text-nowrap pt-2"><h6 class="text-danger mr-2">S/. {{ item.product.price }}</h6></div>
+                    <div class="text-nowrap pt-2"><del class="text-muted">S/. {{ item.product.price }}</del></div>
+                  </div>
+                  <div class="d-flex align-items-center flex-sm-column text-sm-center ml-sm-auto pt-3 pt-sm-0">
+                    <button (click)="delete_item(item._id)"  class="btn btn-outline-primary btn-sm mr-2 mr-sm-0">Eliminar</button>
+                    <button class="btn btn-link btn-sm text-decoration-none pt-0 pt-sm-2 px-0 pb-0 mt-0 mt-sm-1">
+                      Mover a
+                      <i class="cxi-heart ml-1"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="px-3 px-sm-4 py-4 text-right">
+              <span class="text-muted">Subtotal:<strong class="text-dark font-size-lg ml-2">{{ subtotal | currency: "S/. " }}</strong></span>
+            </div>
+          </div>
+        </ng-container>
+        
+
+        <!-- Adresses -->
+        <h2 class="h4 mb-4">2. Dirección de envío</h2>
+            <div class="row pb-3">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div *ngIf="!principal_address" class="row">
+                      <div class="col">
+                        <h5 class="mb-0">No tienes una dirección principal</h5>
+                        <dd>Puedes agregar una dirección predeterminada <a routerLink="/account/address">aquí.</a></dd>
+                      </div>
+                    </div>
+                    <div *ngIf="principal_address" class="row">
+                      <div class="col">
+                        <dt>Destinatario:</dt>
+                        <dd>{{ principal_address.receptor }}</dd>
+                        <dt>Dirección:</dt>
+                        <dd class="mb-0">{{ principal_address.address }}</dd>
+                        <dd>
+                          <span *ngIf="principal_address.region">{{ principal_address.region }}, </span>
+                          <span *ngIf="principal_address.province">{{ principal_address.province }}, </span>
+                          <span *ngIf="principal_address.district">{{ principal_address.district }} - </span>
+                          <span *ngIf="principal_address.zip">{{ principal_address.zip }} - </span>
+                          <span *ngIf="principal_address.country">{{ principal_address.country }}.</span>
+                        </dd>
+                        <dt>Telefóno:</dt>
+                        <dd>{{ principal_address.phone }}</dd>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
+        <hr class="mb-4 pb-2">
+
+        <!-- Shipping -->
+        <h2 class="h4 mb-4">3. Método de Envío</h2>
+        <div *ngFor="let item of delivery, let i = index" class="custom-control custom-radio mb-3">
+          <input (change)="calculate_total(item.title)" [(ngModel)]="price_delivery" name="price_delivery" [value]="item.price" 
+          type="radio" id="courier{{i}}" class="custom-control-input" style="cursor: pointer;">
+          <label for="courier{{i}}" class="custom-control-label d-flex align-items-center" style="cursor: pointer;">
+            <span>
+              <strong class="d-block">{{ item.title }}</strong>
+              <span class="text-muted font-size-sm">{{ item.duration }}</span>
+            </span>
+            <span class="ml-auto">S/. {{ item.price }}</span>
+          </label>
+        </div>
+
+        <hr class="border-top-0 border-bottom pt-4 mb-4">
+
+        <!-- Payment -->
+        <h2 class="h4 pt-2 mb-4">4. Método de Pago</h2>
+        <div class="row pb-4">
+          <div class="col-lg-7">
+            <div class="accordion-alt" id="payment-methods">
+
+              <!-- Card: Credit card -->
+              <div class="card mb-3 px-4 py-3 border rounded box-shadow-sm">
+                <div class="card-header py-2">
+                  <div class="accordion-heading custom-control custom-radio" data-toggle="collapse" data-target="#cc-card">
+                    <input type="radio" class="custom-control-input" id="cc" name="payment" checked>
+                    <label for="cc" class="custom-control-label d-flex align-items-center">
+                      <strong class="d-block mr-3">Credit card</strong>
+                      <img src="assets/img/ecommerce/checkout/cards.png" width="108" alt="Credit cards">
+                    </label>
+                  </div>
+                </div>
+                <div class="collapse show" id="cc-card" data-parent="#payment-methods">
+                  <form autocomplete="off" #myForm="ngForm" class="card-body pt-3 pb-0">
+                    <div class="form-group mb-3">
+                      <label for="cc-number">Tarjeta de Crédito</label>
+                      <input [(ngModel)]="card_data.ncard" name="ncard" required type="text" id="cc-number" class="form-control form-control-lg" data-format="card" placeholder="0000 0000 0000 0000">
+                    </div>
+                    <div class="d-flex">
+                      <div class="form-group mb-3 mr-3">
+                        <label for="cc-exp-date">Fecha de expiración</label>
+                        <input [(ngModel)]="card_data.exp" name="exp" required type="text" id="cc-exp-date" class="form-control form-control-lg" data-format="date" placeholder="mm/yyyy">
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="cc-cvc">CVC</label>
+                        <input [(ngModel)]="card_data.cvc" name="cvc" required type="text" id="cc-cvc" class="form-control form-control-lg" data-format="cvc" placeholder="000">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Card: PayPal -->
+              <div class="card mb-3 px-4 py-3 border rounded box-shadow-sm">
+                <div class="card-header py-2">
+                  <div class="accordion-heading custom-control custom-radio" data-toggle="collapse" data-target="#paypal-card">
+                    <input type="radio" class="custom-control-input" id="paypal" name="payment">
+                    <label for="paypal" class="custom-control-label d-flex align-items-center">
+                      <strong class="d-block mr-3">PayPal</strong>
+                      <img src="assets/img/ecommerce/checkout/paypal-badge.png" width="48" alt="PayPal">
+                    </label>
+                  </div>
+                </div>
+                <div class="collapse" id="paypal-card" data-parent="#payment-methods">
+                  <div class="card-body pt-0 pb-0" #paypalButton></div>
+                </div>
+              </div>
+
+              <!-- Card: Cash -->
+              <div class="card mb-3 px-4 py-3 border rounded box-shadow-sm">
+                <div class="card-header py-2">
+                  <div class="accordion-heading custom-control custom-radio" data-toggle="collapse" data-target="#cash-card">
+                    <input type="radio" class="custom-control-input" id="cash" name="payment">
+                    <label for="cash" class="custom-control-label">
+                      <strong class="d-block mr-3">Pago contra entrega</strong>
+                    </label>
+                  </div>
+                </div>
+                <div class="collapse" id="cash-card" data-parent="#payment-methods">
+                  <div class="card-body pt-3 pb-0">
+                    <p class="mb-2 text-muted">Has seleccionado pagar en efectivo en el momento de la entrega.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="mb-4 pb-2">
+
+        <!-- Additional info -->
+        <h2 class="h4 mb-4">5. Información adicional: (Opcional)</h2>
+        <div class="form-group">
+          <label for="ch-notes">Nota de Pedido</label>
+          <textarea id="ch-notes" class="form-control form-control-lg" rows="5" placeholder="Notas sobre su pedido, por ejemplo, una nota especial para la entrega."></textarea>
+        </div>
+      </div>
+
+
+      <!-- Order totals (sticky sidebar) -->
+      <!-- For more sticky sidebar options visit https://abouolia.github.io/sticky-sidebar/#options -->
+      <aside class="col-lg-4">
+        <div class="sidebar-sticky" data-sidebar-sticky-options='{
+          "topSpacing": 120,
+          "minWidth": 991
+        }'>
+          <div class="sidebar-sticky-inner">
+            <div class="form-group">
+              <label for="promo-code">Aplicar código de cupón</label>
+              <div class="input-group input-group-lg">
+                <input [(ngModel)]="sale.coupon" name="coupon" type="text" id="promo-code" class="form-control" placeholder="Ingresa el código aquí">
+                <div class="input-group-append">
+                  <button (click)="validate_coupon()" [disabled]="status" type="button" class="btn btn-primary">&nbsp;&nbsp;Aplicar&nbsp;&nbsp;</button>
+                </div>
+              </div>
+              <div *ngIf="message" class="alert alert-danger mt-3">{{ message }}</div>
+            </div>
+            <div class="bg-secondary rounded mb-4">
+              <div class="border-bottom p-4">
+                <h2 class="h4 mb-0">Total Pedido</h2>
+              </div>
+              <ul class="list-unstyled border-bottom mb-0 p-4">
+                <li class="d-flex justify-content-between mb-2">
+                  <span class="font-weight-bold">Subtotal:</span>
+                  <span class="font-weight-bold">{{ subtotal | currency: "S/. " }}</span>
+                </li>
+                <li class="d-flex justify-content-between mb-2">
+                  <span>Descuento:</span>
+                  <span>{{ discount | currency: "S/. " }}</span>
+                </li>
+                <li class="d-flex justify-content-between mb-2">
+                  <span>Delivery:</span>
+                  <span *ngIf="price_delivery == 0">Gratis</span>
+                  <span *ngIf="price_delivery != 0">{{ price_delivery | currency: "S/. " }}</span>
+                </li>
+              </ul>
+              <div class="d-flex justify-content-between p-4">
+                <span class="h5 mb-0">Total pagar:</span>
+                <span class="h5 mb-0">{{ total | currency: "S/. " }}</span>
+              </div>
+            </div>
+            <ng-container *ngIf="cart_items.length >= 1">
+              <button *ngIf="!load_btn" (click)="init_culqi()" type="button" class="btn btn-primary btn-lg btn-block">
+                Realizar Pedido
+              </button>
+              <button *ngIf="load_btn" type="button" class="btn btn-primary btn-lg btn-block" disabled>
+                <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
+                Procesando...
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </aside>
+    </div>
+</section>

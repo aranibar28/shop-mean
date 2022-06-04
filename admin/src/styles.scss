@@ -1,0 +1,83 @@
+/* You can add global styles to this file, and also import other style files */
+a {
+  cursor: pointer;
+}
+
+#themecolors {
+  padding-left: 0 !important;
+}
+
+.w-1 {
+  width: 100px;
+}
+
+.w-2 {
+  width: 200px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.img-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.img-icon-radius {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.img-upload {
+  max-width: 264px;
+  height: 264px;
+}
+
+.img-galery {
+  cursor: pointer;
+  max-width: 200px;
+  height: 200px;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4rem;
+  height: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.ngx-pagination {
+  margin-bottom: 0 !important;
+  .current {
+    background-color: #2f3d4a !important;
+  }
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 9px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.fast {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}

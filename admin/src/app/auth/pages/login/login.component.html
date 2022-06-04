@@ -1,0 +1,33 @@
+<section id="wrapper">
+    <div class="login-register d-flex align-items-center px-4">
+        <div class="login-box card">
+            <div class="card-body">
+                <form (ngSubmit)="login()" [formGroup]="loginForm" autocomplete="off" class="form-horizontal form-material">
+                    <h3 class="box-title text-center">Login</h3>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input formControlName="email" class="form-control" type="text" placeholder="Email">
+                            <small *ngIf="validator('email')" class="text-danger"> Este campo tiene que ser válido. </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input formControlName="password" class="form-control" type="password" placeholder="Password">
+                            <small *ngIf="validator('password')" class="text-danger"> Este campo es obligatorio. </small>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <div class="col-xs-12">
+                            <button class="btn btn-info btn-block text-uppercase waves-effect waves-light" type="submit">Ingresar</button>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-sm-12 text-center">
+                            <p>¿No tienes una cuenta? <a class="text-info"><b>Registrar</b></a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

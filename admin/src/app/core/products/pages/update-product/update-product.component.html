@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-body m-md-2"> 
+            <h4 class="card-title font-weight-bold">Actualizar Producto</h4>         
+            <form (ngSubmit)="update()" [formGroup]="myForm" class="form" autocomplete="off">
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label>Título</label>
+                        <input formControlName="title" type="text" class="form-control">
+                        <small *ngIf="validate('title')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Categoría</label>
+                        <select formControlName="category" class="form-control custom-select">
+                            <option value="" selected disabled>Seleccionar</option>
+                            <option *ngFor="let item of categories" [value]="item._id">{{ item.title }}</option>
+                        </select>
+                        <small *ngIf="validate('category')" class="text-danger"> Este campo es obligatorio. </small>                       
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label>Precio</label>
+                        <input formControlName="price" type="number" class="form-control">
+                        <small *ngIf="validate('price')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Stock</label>
+                        <input formControlName="stock" type="number" class="form-control">
+                        <small *ngIf="validate('stock')" class="text-danger"> Este campo es obligatorio. </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea formControlName="description" rows="3" class="form-control" placeholder="Ingrese una descripción aquí"></textarea>
+                    <small *ngIf="validate('description')" class="text-danger"> Este campo es obligatorio. </small>
+                </div>
+                <div class="form-group">
+                    <tinymce formControlName="container" [config]="config"></tinymce>
+                    <small *ngIf="validate('container')" class="text-danger"> Este campo es obligatorio. </small>
+                </div>
+                <button *ngIf="!load_btn" type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10 mt-2">
+                    <i class="fa fa-save m-r-10"></i>Guardar
+                </button>
+                <button *ngIf="load_btn" type="button" class="btn btn-warning btn-block waves-effect waves-light m-r-10 mt-2" disabled>
+                    <i class="fa fa-refresh fa-spin m-r-10"></i>Guardando...
+                </button>
+            </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card">
+          <div class="card-body m-md-2">
+            <div class="d-flex justify-content-end mb-4">
+                <a routerLink="/dashboard/products" class="link-primary"><i class="fa fa-reply m-r-10"></i>Regresar</a>
+            </div>
+            <div class="text-center">
+                <img [src]="imgSelected" class="m-b-40 img-upload">
+                <label class="custom-file-upload d-flex flex-column">
+                    <input (change)="fileChanged($event)" id="#input-file" type="file" />
+                    Subir Imagen
+                </label>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>

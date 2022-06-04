@@ -1,0 +1,45 @@
+<div class="d-flex align-items-center justify-content-between mb-4 pb-1 pb-sm-3">
+    <h1 class="h2 mb-0">Mi Perfil</h1>
+  </div>
+  <form [formGroup]="myForm" (ngSubmit)="update()" autocomplete="off">
+    <div class="row pb-3">
+      <div class="col-sm-6 form-group">
+        <label>Nombres</label>
+        <input formControlName="first_name" type="text" class="form-control form-control-lg">
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Apellidos</label>
+        <input formControlName="last_name" type="text" class="form-control form-control-lg">
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Email</label>
+        <input formControlName="email" type="email" class="form-control form-control-lg">
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Password</label>
+        <input id="input_password" type="password" class="form-control form-control-lg" placeholder="Nuevo Password">
+        <input formControlName="password" type="password" class="d-none">
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Teléfono</label>
+        <input formControlName="phone" type="number" class="form-control form-control-lg">
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>DNI</label>
+        <input formControlName="dni" type="number" class="form-control form-control-lg">
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Fecha de Nacimiento</label>
+        <input formControlName="birthday" type="date" class="form-control form-control-lg">
+      </div>
+      <div class="col-sm-6 form-group">
+        <label>Género</label>
+        <select formControlName="gender" class="custom-select custom-select-lg">
+          <option value="" disabled selected>Seleccionar</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">&nbsp;Guardar Cambios&nbsp;</button>
+</form>

@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+            <div>
+                <div class="d-flex justify-content-between mb-4 mb-md-2">
+                    <h4 class="card-title font-weight-bold">Inventario del Producto {{ product.title }}</h4>
+                    <div>
+                        <button (click)="download_excel()" class="btn btn-success mr-2" type="button"><i class="fa fa-file-excel-o mr-1"></i> Excel</button>
+                        <button routerLink="/dashboard/products" class="btn btn-warning" type="button"><i class="fa fa-angle-double-left mr-1"></i> Regresar</button>
+                    </div>
+                </div>
+                <form [formGroup]="myForm" (ngSubmit)="registerInventory()">
+                    <div class="row form-group">
+                        <div class="col-md-3 mb-2">
+                            <input formControlName="quantity"class="form-control" type="number" autocomplete="off" placeholder="Ingresar cantidad"/>
+                            <small *ngIf="validate('quantity')" class="text-danger"> Este campo es obligatorio. </small>  
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <select formControlName="supplier" class="form-control custom-select">
+                                <option value="" selected disabled>Seleccionar Proveedor</option>
+                                <option *ngFor="let item of suppliers" [value]="item._id">{{ item.company }}</option>
+                            </select>
+                            <small *ngIf="validate('supplier')" class="text-danger"> Este campo es obligatorio. </small>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button *ngIf="!load_btn" class="btn btn-primary" type="submit"><i class="fa fa-arrow-down mr-1"></i> Ingresar</button>
+                            <button *ngIf="load_btn" class="btn btn-primary" type="button" disabled><i class="spinner-border spinner-border-sm me-2"></i>Cargando...</button>
+                        </div>
+                    </div>
+                </form>   
+            </div>
+            <div>  
+                <div class="table-responsive">
+                    <table class="table table-bordered color-table inverse-table">
+                        <thead>
+                            <tr>
+                                <th>Ingresado por</th>
+                                <th>Proveedor</th>
+                                <th>Cantidad</th>
+                                <th>Fecha</th>
+                                <th class="w-1">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <ng-container *ngIf="load_data">
+                            <tbody>
+                                <td colspan="8"><span>Cargando...</span></td>
+                            </tbody>
+                        </ng-container>
+
+                        <ng-container *ngIf="!load_data">
+                            <tbody *ngIf="this.inventories.length === 0">
+                                <td colspan="8"><span>No hay resultados.</span></td>
+                            </tbody>
+                            <tbody>
+                                <tr *ngFor="let item of inventories  | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+                                    <td>{{ item.created_by.email }}</td>
+                                    <td>{{ item.supplier?.company || 'Registro Inicial' }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.created_at | date: 'dd/MM/yy - h:mm a'}}</td>
+                                    <td><a (click)="delete_data(item._id, item.quantity)"> <i class="fa fa-close text-danger"></i> </a></td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
