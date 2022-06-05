@@ -30,6 +30,7 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.list_product_by_slug();
+    this.init_discount();
   }
 
   ngAfterViewInit(): void {
@@ -53,6 +54,18 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
             });
         },
       });
+    });
+  }
+
+  init_discount() {
+    this.productService.get_discount_active().subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.discount = res.data[0];
+        } else {
+          this.discount = undefined;
+        }
+      },
     });
   }
 

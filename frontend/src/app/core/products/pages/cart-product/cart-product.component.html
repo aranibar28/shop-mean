@@ -67,8 +67,8 @@
                   </div>
                   <div *ngIf="active" class="d-flex pr-sm-3">
                     <input [(ngModel)]="item.quantity" name="quantity" type="number" class="form-control form-control-sm bg-light mr-3" style="width: 4.5rem;" [value]="item.quantity">
-                    <div class="text-nowrap pt-2"><h6 class="text-danger mr-2">S/. {{ item.product.price }}</h6></div>
-                    <div class="text-nowrap pt-2"><del class="text-muted">S/. {{ item.product.price }}</del></div>
+                    <div class="text-nowrap pt-2"><h6 class="text-danger mr-2">{{ item.product.price | discounts: active.discount | currency: "S/. " }}</h6></div>
+                    <div class="text-nowrap pt-2"><del class="text-muted">{{ item.product.price | currency: "S/. " }}</del></div>
                   </div>
                   <div class="d-flex align-items-center flex-sm-column text-sm-center ml-sm-auto pt-3 pt-sm-0">
                     <button (click)="delete_item(item._id)"  class="btn btn-outline-primary btn-sm mr-2 mr-sm-0">Eliminar</button>

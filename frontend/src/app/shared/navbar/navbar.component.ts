@@ -20,7 +20,8 @@ export class NavbarComponent implements OnInit {
   public user: any = undefined;
   public public_user: any = undefined;
   public categories: Array<any> = [];
-  public discount: any = undefined;
+  public active: any = undefined;
+  public discount: number = 1;
   public op_cart = false;
 
   public cart_items: Array<any> = [];
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit {
   logged() {
     if (this.authService.user) {
       this.public_user = JSON.parse(localStorage.getItem('x-user')!);
+      this.init_discount();
       this.get_cart_customer();
     } else {
       this.public_user = undefined;
@@ -53,6 +55,20 @@ export class NavbarComponent implements OnInit {
   list_categories() {
     this.productService.list_categories('').subscribe({
       next: (res) => (this.categories = res.data),
+    });
+  }
+
+  init_discount() {
+    this.productService.get_discount_active().subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.active = res.data[0];
+          this.discount = 1 - this.active.discount / 100;
+        } else {
+          this.active = undefined;
+          this.discount = 1;
+        }
+      },
     });
   }
 
@@ -67,13 +83,13 @@ export class NavbarComponent implements OnInit {
 
   calculate_cart() {
     this.subtotal = 0;
-    if (!this.discount) {
+    if (!this.active) {
       this.cart_items.forEach((e) => {
         this.subtotal = this.subtotal + e.product.price * e.quantity;
       });
     } else {
       this.cart_items.forEach((e) => {
-        let new_price = e.product.price * (1 - this.discount.discount / 100);
+        let new_price = e.product.price * (1 - this.active.discount / 100);
         this.subtotal = this.subtotal + new_price * e.quantity;
       });
     }

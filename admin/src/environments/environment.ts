@@ -7,6 +7,7 @@ export const environment = {
   base_url: 'http://localhost:3000/api',
   url_img_product: 'http://localhost:3000/api/products/image/',
   url_img_category: 'http://localhost:3000/api/categories/image/',
+  url_img_discount: 'http://localhost:3000/api/discounts/image/',
 };
 
 /*

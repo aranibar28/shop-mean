@@ -1,1 +1,53 @@
-<p>create-discount works!</p>
+<div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body m-md-2"> 
+            <h4 class="card-title font-weight-bold">Registrar Descuento</h4>         
+            <form (ngSubmit)="register()" [formGroup]="myForm" class="form" autocomplete="off">
+                <div class="form-group">
+                    <label>Título</label>
+                    <input formControlName="title" type="text" class="form-control">
+                    <small *ngIf="validate('title')" class="text-danger"> Este campo es obligatorio. </small>
+                </div>
+                <div class="form-group">
+                    <label>Descuento</label>
+                    <input formControlName="discount" type="number" class="form-control" min="0" oninput="if (this.value.length > 2) this.value = this.value.slice(0, 2)">
+                    <small *ngIf="validate('discount')" class="text-danger"> Este campo es obligatorio. </small>
+                </div>
+                <div class="form-group">
+                    <label>Fecha Inicio</label>
+                    <input formControlName="start_date" type="date" class="form-control">
+                    <small *ngIf="validate('start_date')" class="text-danger"> Este campo es obligatorio. </small>
+                </div>
+                <div class="form-group">
+                    <label>Fecha Fin</label>
+                    <input formControlName="finish_date" type="date" class="form-control">
+                    <small *ngIf="validate('finish_date')" class="text-danger"> Este campo es obligatorio. </small>
+                </div>
+                <button *ngIf="!load_btn" type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10 mt-2">
+                    <i class="fa fa-save m-r-10"></i>Guardar
+                </button>
+                <button *ngIf="load_btn" type="button" class="btn btn-warning btn-block waves-effect waves-light m-r-10 mt-2" disabled>
+                    <i class="fa fa-refresh fa-spin m-r-10"></i>Guardando...
+                </button>
+            </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+          <div class="card-body m-md-2">
+            <div class="d-flex justify-content-end mb-4">
+                <a routerLink="/dashboard/discounts" class="link-primary"><i class="fa fa-reply m-r-10"></i>Regresar</a>
+            </div>
+            <div class="text-center">
+                <img [src]="imgSelected" class="m-b-40 img-upload">
+                <label class="custom-file-upload d-flex flex-column">
+                    <input (change)="fileChanged($event)" id="#input-file" type="file" />
+                    Subir Imagen
+                </label>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

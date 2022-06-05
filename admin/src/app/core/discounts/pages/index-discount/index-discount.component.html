@@ -1,1 +1,65 @@
-<p>index-discount works!</p>
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h3 class="card-title mb-0"><span class="lstick"></span>Lista de Descuentos</h3>
+                <div>
+                    <label><input [(ngModel)]="word" (keyup)="filter()" name="word" type="search" class="form-control" placeholder="Buscar"></label>
+                    <button class="btn btn-success mr-2 mx-md-3" type="button"><i class="fa fa-file-excel-o mr-1"></i> Excel</button>
+                    <button routerLink="create" class="btn btn-primary" type="button"><i class="fa fa-plus mr-1"></i> Nuevo</button>
+                </div>
+            </div>
+            <div>  
+                <div class="table-responsive">
+                    <table class="table table-bordered color-table inverse-table">
+                        <thead>
+                            <tr>
+                                <th class="w-1">Banner</th>
+                                <th>Título</th>
+                                <th>Descuento</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th class="w-1">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <ng-container *ngIf="load_data">
+                            <tbody>
+                                <td colspan="8"><span>Cargando...</span></td>
+                            </tbody>
+                        </ng-container>
+
+                        <ng-container *ngIf="!load_data">
+                            <tbody *ngIf="this.discounts.length === 0">
+                                <td colspan="8"><span>No hay resultados.</span></td>
+                            </tbody>
+                            <tbody>
+                                <tr *ngFor="let item of discounts | paginate: { itemsPerPage: 4, currentPage: p }; let i = index">
+                                    <td><img [src]="path + item.banner" class="img-icon-radius"></td>
+                                    <td>{{ item.title }}</td>
+                                    <td>{{ item.discount }}%</td>
+                                    <td>{{ item.start_date | date:'dd/MM/yy' }} - {{ item.finish_date | date:'dd/MM/yy' }}</td>
+                                    <td>
+                                        <span *ngIf="item.status == 'Proximamente'" class="badge badge-warning">{{ item.status }}</span>
+                                        <span *ngIf="item.status == 'Expirado'" class="badge badge-danger">{{ item.status }}</span>
+                                        <span *ngIf="item.status == 'En progreso'" class="badge badge-success">{{ item.status }}</span>
+                                      </td>
+                                    <td>
+                                        <a [routerLink]="['/dashboard/discounts/update', item._id]"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a (click)="delete_data(item._id, item.title)"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </table>
+              
+                <div class="d-flex justify-content-end">
+                    <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>    
+            </div>
+        </div>
+      </div>
+    </div>
+</div>

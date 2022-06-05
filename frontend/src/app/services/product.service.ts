@@ -47,4 +47,9 @@ export class ProductService {
     const url = `${base_url}/public/list_product_sales`;
     return this.http.get(url, this.headers);
   }
+
+  get_discount_active(): Observable<any> {
+    const url = `${base_url}/discounts/get_discount_active`;
+    return this.http.get(url, this.headers);
+  }
 }

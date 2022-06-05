@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { io } from 'socket.io-client';
 import { AddressService } from 'src/app/services/address.service';
 import { NgForm } from '@angular/forms';
+import { ProductService } from 'src/app/services/product.service';
 declare var paypal: any;
 
 @Component({
@@ -41,23 +42,37 @@ export class CartProductComponent implements OnInit {
   public status = false;
   public card_data: any = {};
   public message = '';
-  public discount = 0;
   public active: any = undefined;
+  public discount = 0;
 
   constructor(
     private publicService: PublicService,
     private addressService: AddressService,
+    private productService: ProductService,
     private cartService: CartService,
     private router: Router,
     private zone: NgZone
   ) {}
 
   ngOnInit(): void {
+    this.init_discount();
     this.init_data();
     this.init_paypal();
     this.init_delivery();
     this.init_address();
     this.publicService.init_payment_assets();
+  }
+
+  init_discount() {
+    this.productService.get_discount_active().subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.active = res.data[0];
+        } else {
+          this.active = undefined;
+        }
+      },
+    });
   }
 
   init_data() {

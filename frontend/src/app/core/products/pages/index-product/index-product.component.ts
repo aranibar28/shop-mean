@@ -38,6 +38,19 @@ export class IndexProductComponent implements OnInit {
     this.list_categories();
     this.list_products();
     this.list_products_by_params();
+    this.init_discount();
+  }
+
+  init_discount() {
+    this.productService.get_discount_active().subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.discount = res.data[0];
+        } else {
+          this.discount = undefined;
+        }
+      },
+    });
   }
 
   list_categories() {

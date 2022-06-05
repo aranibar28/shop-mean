@@ -50,11 +50,15 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
 
               <!-- Price -->
-              <div class="d-flex align-items-center mb-sm-0 mb-4">
-                <span class="h3 d-inline-block mb-0 text-danger">{{ product.price | currency: 'S/. ' }}</span>
-                <div class="d-none">
-                  <del class="d-inline-block ml-2 pl-1 font-size-lg text-muted">{{ product.price * 1.5 | currency: 'S/. ' }}</del>
-                  <span class="ml-4 p-2 badge badge-danger font-size-base font-weight-bold">- 50%</span>
+              <div *ngIf="!discount" class="d-flex align-items-center mb-sm-0 mb-4">
+                <span class="h3 d-inline-block mb-0">{{ product.price | currency: 'S/. ' }}</span>
+              </div>
+
+              <div *ngIf="discount" class="d-flex align-items-center mb-sm-0 mb-4">
+                <span class="h3 d-inline-block mb-0 text-danger">{{ product.price | discounts: discount.discount | currency: 'S/. ' }}</span>
+                <div>
+                  <del class="d-inline-block ml-2 pl-1 font-size-lg text-muted">{{ product.price | currency: 'S/. ' }}</del>
+                  <span class="ml-4 p-2 badge badge-danger font-size-base font-weight-bold">- {{ discount.discount }}%</span>
                 </div>
               </div>
 
@@ -277,7 +281,7 @@
                   </h3>
                   <div class="d-flex align-items-center">
                     <div *ngIf="discount" class="d-flex align-items-center mb-sm-0 mb-4">
-                      <span class="h5 d-inline-block mb-0 text-danger">{{ product.price | currency: 'S/. ' }}</span>
+                      <span class="h5 d-inline-block mb-0 text-danger">{{ product.price | discounts: discount.discount | currency: 'S/. ' }}</span>
                       <del class="d-inline-block ml-2 pl-1 font-size-lg text-muted">{{ product.price | currency: 'S/. ' }}</del>
                       <span class="ml-4 p-2 badge badge-danger font-size-base font-weight-bold">- {{ discount.discount }}%</span>
                     </div>
@@ -595,8 +599,8 @@
                 </h3>
                 <div class="d-flex align-items-center">
                   <div *ngIf="discount" class="d-flex align-items-center mb-sm-0 mb-4">
-                    <span class="h5 d-inline-block mb-0 text-danger">{{ product.price | currency: 'S/. ' }}</span>
-                    <del class="d-inline-block ml-2 pl-1 font-size-lg text-muted">{{ product.price | currency: 'S/. ' }}</del>
+                    <span class="h5 d-inline-block mb-0 text-danger">{{ product.price | discounts: discount.discount | currency: 'S/. ' }}</span>
+                    <del class="d-inline-block ml-2 pl-1 font-size-lg text-muted">{{ product.price | currency: 'S/. '  }}</del>
                     <span class="ml-4 p-2 badge badge-danger font-size-base font-weight-bold">- {{ discount.discount }}%</span>
                   </div>
                   <div  *ngIf="!discount" class="d-flex align-items-center mb-sm-0 mb-4">
@@ -657,10 +661,14 @@
                   </div>
                   <div class="card-body bg-0 pb-2">
                     <h3 class="card-product-title text-truncate mb-2">
-                      <a href="#" class="nav-link">{{ item.title }}</a>
+                      <a class="nav-link">{{ item.title }}</a>
                     </h3>
-                    <div class="d-flex align-items-center">
+                    <div *ngIf="!discount" class="d-flex align-items-center">
                       <span class="h5 d-inline-block mb-0">{{ item.price | currency: 'S/. ' }}</span>
+                    </div>
+                    <div *ngIf="discount" class="d-flex align-items-center">
+                      <span class="h5 d-inline-block text-danger mb-0">{{ item.price | discounts: discount.discount | currency: 'S/. ' }}</span>
+                      <del class="d-inline-block ml-2 pl-1 text-muted">{{ item.price | currency: 'S/. ' }}</del>
                     </div>
                   </div>
                 </div>
