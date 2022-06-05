@@ -35,4 +35,9 @@ export class CustomersService {
     const url = `${base_url}/public/update_customer/${id}`;
     return this.http.put(url, data, this.headers);
   }
+
+  send_message_contact(data: any): Observable<any> {
+    const url = `${base_url}/public/send_message_contact`;
+    return this.http.put(url, data, this.headers);
+  }
 }

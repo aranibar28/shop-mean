@@ -7,6 +7,7 @@ import { MainComponent } from './pages/main/main.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MessagesComponent } from './pages/messages/messages.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MessagesComponent } from './pages/messages/messages.component';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
   ],
 })
 export class AccountModule {}

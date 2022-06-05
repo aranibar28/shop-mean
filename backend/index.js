@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
 // Rutas API
 app.use("/api/login", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
+app.use("/api/config", require("./routes/config"));
 app.use("/api/customers", require("./routes/customers"));
 app.use("/api/categories", require("./routes/categories"));
 app.use("/api/products", require("./routes/products"));

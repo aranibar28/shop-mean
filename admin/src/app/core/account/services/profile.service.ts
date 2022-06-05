@@ -26,4 +26,14 @@ export class ProfileService {
     const url = `${base_url}/users/${id}`;
     return this.http.get(url, this.headers);
   }
+
+  get_messages_admin(): Observable<any> {
+    const url = `${base_url}/config/get_messages_admin`;
+    return this.http.get(url, this.headers);
+  }
+
+  close_message_admin(id: any, data: any): Observable<any> {
+    const url = `${base_url}/config/close_message_admin/${id}`;
+    return this.http.put(url, data, this.headers);
+  }
 }

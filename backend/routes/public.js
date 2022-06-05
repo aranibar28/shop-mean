@@ -30,6 +30,10 @@ router.get("/principal_address/:id", [validateJWT], ctrl3.principal_address);
 // Sales
 router.post("/register_sale", [validateJWT], ctrl4.register_sale);
 router.get("/send_email_sale/:id", [validateJWT], ctrl4.send_email_sale);
+router.get("/read_orders_customer/:id", [validateJWT], ctrl4.read_orders_customer);
+router.get("/read_orders_by_id/:id", [validateJWT], ctrl4.read_orders_by_id);
+router.put("/send_message_contact", ctrl4.send_message_contact);
+
 router.get("/validate_coupon/:coupon", [validateJWT], ctrl5.validate_coupon);
 
 module.exports = router;

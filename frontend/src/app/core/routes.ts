@@ -6,6 +6,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { LoginComponent } from '../auth/pages/login/login.component';
 import { RegisterComponent } from '../auth/pages/register/register.component';
 import { IndexComponent } from './index/index.component';
+import { ContactComponent } from './index/contact/contact.component';
 
 import { AccountComponent } from './account/account.component';
 import { AddressComponent } from './account/pages/address/address.component';
@@ -17,6 +18,7 @@ import { CartProductComponent } from './products/pages/cart-product/cart-product
 
 const childRoutes: Routes = [
   { path: '', component: IndexComponent },
+  { path: 'contact', component: ContactComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 

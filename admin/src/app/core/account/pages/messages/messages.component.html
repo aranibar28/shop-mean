@@ -1,1 +1,45 @@
-<p>messages works!</p>
+<div class="card box-shadow-sm mt-6">
+
+    <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+      <h2 class="mb-0 text-center">Mensajes</h2>
+    </div>
+  
+    <div *ngIf="!load_data" class="card-body">
+      <div *ngFor="let item of messages | paginate: { itemsPerPage: 5, currentPage: p }" class="mb-4 pb-4 border-bottom">
+          <div class="row">
+            <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
+              <h3 class="mb-2 font-size-lg">{{ item.customer }}</h3>
+              <span class="d-block mb-3 font-size-sm text-muted">{{ item.create_at | date }}</span>
+              <div>
+                <span *ngIf="item.status == 'Abierto'" class="badge badge-warning">{{ item.status }}</span>
+                <span *ngIf="item.status == 'Cerrado'" class="badge badge-success">{{ item.status }}</span>
+              </div>
+            </div>
+            <div class="col">
+              <p class="mb-3">
+                <a class="mr-1 font-weight-bold text-decoration-none">{{ item.email }}</a><br />
+                {{ item.message }}
+              </p>
+              <div class="d-flex justify-content-between">
+                <a *ngIf="item.status == 'Abierto'" (click)="close_asunt(item._id)" class="nav-link p-0 font-size-sm">
+                  <i class="cxi-chat mr-2 font-size-base align-middle mt-n1"></i>
+                  Cerrar mensaje
+                </a>
+                <span *ngIf="item.status == 'Cerrado'"  class="text-success p-0 font-size-sm">
+                  <i class="cxi-like mr-2 font-size-base align-middle mt-n1"></i>
+                  Mensaje cerrado
+                </span>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div *ngIf="load_data" class="card-body">
+      <div class="col-12 text-center">
+        <span>Cargando...</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <pagination-controls previousLabel="Atrás" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>
