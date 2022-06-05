@@ -34,6 +34,7 @@ const childRoutes: Routes = [
   { path: 'products', component: IndexProductComponent },
   { path: 'products/category/:category', component: IndexProductComponent },
   { path: 'products/:slug', component: DetailsProductComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

@@ -6,6 +6,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { AuthModule } from '../auth/auth.module';
+import { IndexModule } from './index/index.module';
 import { AccountModule } from './account/account.module';
 import { ProductsModule } from './products/products.module';
 
@@ -15,6 +16,7 @@ import { ProductsModule } from './products/products.module';
     CommonModule,
     AuthModule,
     AccountModule,
+    IndexModule,
     ProductsModule,
     SharedModule,
     CoreRoutingModule,
