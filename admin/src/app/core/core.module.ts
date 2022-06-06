@@ -12,6 +12,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
 import { CouponsModule } from './coupons/coupons.module';
 import { DiscountsModule } from './discounts/discounts.module';
+import { SalesModule } from './sales/sales.module';
 
 @NgModule({
   declarations: [CoreComponent],
@@ -24,6 +25,7 @@ import { DiscountsModule } from './discounts/discounts.module';
     ProductsModule,
     CouponsModule,
     DiscountsModule,
+    SalesModule,
     RouterModule,
     SharedModule,
     FormsModule,

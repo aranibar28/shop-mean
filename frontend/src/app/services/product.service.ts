@@ -52,4 +52,9 @@ export class ProductService {
     const url = `${base_url}/discounts/get_discount_active`;
     return this.http.get(url, this.headers);
   }
+
+  read_review_product(id: any): Observable<any> {
+    const url = `${base_url}/public/read_review_product/${id}`;
+    return this.http.get(url, this.headers);
+  }
 }

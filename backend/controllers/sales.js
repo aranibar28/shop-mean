@@ -1,6 +1,6 @@
 "use strict";
 const { response } = require("express");
-const Sale = require("../models/sale");
+const Sales = require("../models/sale");
 const Sale_Detail = require("../models/sale_detail");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
@@ -12,12 +12,11 @@ var handlebars = require("handlebars");
 var ejs = require("ejs");
 var nodemailer = require("nodemailer");
 var smtpTransport = require("nodemailer-smtp-transport");
-var path = require("path");
 
 const register_sale = async (req, res = response) => {
   var data = req.body;
   var details = data.details;
-  var last_sale = await Sale.find().sort({ created_at: -1 });
+  var last_sale = await Sales.find().sort({ created_at: -1 });
   var serie;
   var correlative;
   var code_venta;
@@ -39,7 +38,7 @@ const register_sale = async (req, res = response) => {
   }
   data.code = code_venta;
   data.status = "Procesando";
-  let sale = await Sale.create(data);
+  let sale = await Sales.create(data);
 
   details.forEach(async (element) => {
     element.sale = sale._id;
@@ -79,7 +78,7 @@ const send_email_sale = async (req, res = response) => {
     })
   );
 
-  var sale = await Sale.findById({ _id: id }).populate("customer");
+  var sale = await Sales.findById({ _id: id }).populate("customer");
   var details = await Sale_Detail.find({ sale: id }).populate("product");
 
   var cliente = sale.customer.first_name + " " + sale.customer.last_name;
@@ -110,7 +109,7 @@ const send_email_sale = async (req, res = response) => {
 
 const read_orders_customer = async (req, res = response) => {
   var id = req.params["id"];
-  let reg = await Sale.find({ customer: id }).sort({ create_at: -1 });
+  let reg = await Sales.find({ customer: id }).sort({ created_at: -1 });
   if (reg.length >= 1) {
     res.status(200).send({ data: reg });
   } else {
@@ -118,10 +117,10 @@ const read_orders_customer = async (req, res = response) => {
   }
 };
 
-const read_orders_by_id = async (req, res = response) => {
+const read_orders_detail = async (req, res = response) => {
   var id = req.params["id"];
   try {
-    let sale = await Sale.findById({ _id: id }).populate("address").populate("customer");
+    let sale = await Sales.findById({ _id: id }).populate("address").populate("customer");
     let details = await Sale_Detail.find({ sale: id }).populate("product");
     res.status(200).send({ data: sale, details: details });
   } catch (error) {
@@ -158,6 +157,6 @@ module.exports = {
   register_sale,
   send_email_sale,
   read_orders_customer,
-  read_orders_by_id,
+  read_orders_detail,
   send_message_contact,
 };

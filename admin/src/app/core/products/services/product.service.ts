@@ -107,8 +107,8 @@ export class ProductService {
   }
 
   // Reviews
-  list_reviews(id: any): Observable<any> {
-    const url = `${base_url}/products/list_reviews/${id}`;
+  read_review_product(id: any): Observable<any> {
+    const url = `${base_url}/public/read_review_product/${id}`;
     return this.http.get(url, this.headers);
   }
 }

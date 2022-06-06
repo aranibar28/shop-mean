@@ -35,6 +35,14 @@ export class SidebarService {
         { title: 'Descuentos', url: 'discounts' },
       ],
     },
+    {
+      title: 'Ventas',
+      icon: 'mdi mdi-ticket-percent',
+      submenu: [
+        { title: 'Ventas', url: 'sales' },
+        { title: 'Detalles', url: 'sales/sadas' },
+      ],
+    },
   ];
 
   constructor() {}

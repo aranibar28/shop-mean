@@ -1,0 +1,48 @@
+<div>
+    <div class="d-flex align-items-center justify-content-between mb-4 pb-sm-2" >
+      <h1 class="h2 mb-0">Mis Reseñas</h1>
+    </div>
+
+    <div  class="row">
+      <div *ngFor="let item of reviews | paginate: { itemsPerPage: 5, currentPage: p }" class="col-12 mb-3">
+        <div class="mb-4 pb-4 border-bottom">
+          <div class="row">
+            <div class="col-md-3 text-center">
+              <img [routerLink]="'/products/' + item.product.slug" [src]="path + item.product.image" class="pointer w100">
+              <span class="d-block font-size-sm text-muted">{{ item.product.title }}</span>
+            </div>
+            <div class="col-md-9 col-sm-4 mb-sm-0 mb-3 text-center text-md-left">
+              <h3 class="font-size-lg mb-0 d-md-inline">{{ item.customer.first_name }} {{ item.customer.last_name }}</h3>
+              <span class="font-size-sm text-muted mb-3 ml-2">@{{ item.customer.email }}</span>
+              <div class="d-flex justify-content-between mt-2">
+                <div style="width: 100%;">
+                  <div>
+                    <div class="star-rating d-inline">
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': item.starts >= 1}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': item.starts >= 2}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': item.starts >= 3}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': item.starts >= 4}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': item.starts >= 5}"></i>
+                    </div>
+                    <span class="ml-2 font-size-sm text-muted">{{ item.created_at | time }}</span>
+                  </div>
+                  <p>{{ item.review }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="load_data" class="accordion-alt">
+      <div class="col-12 text-center">
+        <span>Cargando...</span>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
+    </div>
+    
+  </div>

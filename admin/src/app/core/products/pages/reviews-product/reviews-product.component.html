@@ -1,1 +1,52 @@
-<p>reviews-product works!</p>
+<div class="card-body">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <div class="card text-center">
+                       <img style="min-width:230px" [src]="path + product.image" class="card-img-top" alt="Card image">
+                       <div class="card-body">
+                          <h5 class="card-title">{{product.title}}</h5>
+                          <p class="card-text text-muted fs-sm">{{product.description}}</p>
+                          <span class="h5 d-inline-block mb-0 text-danger">S/. {{product.price}}</span>
+                       </div>
+                    </div>
+                </div>
+                <div *ngIf="reviews.length == 0" class="col-md-8">
+                    <span>No hay reseñas en este producto.</span>
+                </div>
+                 <div *ngIf="reviews.length >= 1" class="col-md-8">
+                    <div  class="row">
+                        <div *ngFor="let item of reviews | paginate: { itemsPerPage: 5, currentPage: p }" class="col-12 mb-3">
+                          <div class="mb-4 pb-4 border-bottom">
+                            <div class="row">
+                              <div class="col-md-4 col-sm-4 mb-sm-0 mb-3">
+                                <h3 class="mb-2 font-size-lg">{{ item.customer.first_name }} <br />{{ item.customer.last_name }}</h3>
+                                <span class="d-block mb-3 font-size-sm text-muted">{{ item.create_at | date }}</span>
+                                <div class="mt-n1 star-rating">
+                                  <i class="fa fa-star" [ngClass]="{'text-warning': item.starts >= 1}"></i>
+                                  <i class="fa fa-star" [ngClass]="{'text-warning': item.starts >= 2}"></i>
+                                  <i class="fa fa-star" [ngClass]="{'text-warning': item.starts >= 3}"></i>
+                                  <i class="fa fa-star" [ngClass]="{'text-warning': item.starts >= 4}"></i>
+                                  <i class="fa fa-star" [ngClass]="{'text-warning': item.starts >= 5}"></i>
+                                </div>
+                              </div>
+                              <div class="col">
+                                <p class="mb-3">
+                                  <a class="mr-1 font-weight-bold text-decoration-none" href="#">@{{ item.customer.email }}</a>
+                                  <br />
+                                  {{ item.review }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-footer">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>

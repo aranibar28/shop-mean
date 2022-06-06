@@ -37,7 +37,6 @@ const get_sales_admin = async (req, res = response) => {
 };
 
 // KPI
-
 const kpi_mounth_earnings = async (req, res = response) => {
   var january = 0;
   var february = 0;

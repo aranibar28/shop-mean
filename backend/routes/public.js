@@ -5,6 +5,7 @@ const ctrl2 = require("../controllers/products");
 const ctrl3 = require("../controllers/address");
 const ctrl4 = require("../controllers/sales");
 const ctrl5 = require("../controllers/coupons");
+const ctrl6 = require("../controllers/reviews");
 
 //--> http://localhost:3000/api/public <--//
 const router = Router();
@@ -31,9 +32,13 @@ router.get("/principal_address/:id", [validateJWT], ctrl3.principal_address);
 router.post("/register_sale", [validateJWT], ctrl4.register_sale);
 router.get("/send_email_sale/:id", [validateJWT], ctrl4.send_email_sale);
 router.get("/read_orders_customer/:id", [validateJWT], ctrl4.read_orders_customer);
-router.get("/read_orders_by_id/:id", [validateJWT], ctrl4.read_orders_by_id);
+router.get("/read_orders_detail/:id", [validateJWT], ctrl4.read_orders_detail);
 router.put("/send_message_contact", ctrl4.send_message_contact);
+router.get("/validate_coupon/:coupon", ctrl5.validate_coupon);
 
-router.get("/validate_coupon/:coupon", [validateJWT], ctrl5.validate_coupon);
+// Reviews
+router.post("/send_review_product", [validateJWT], ctrl6.send_review_product);
+router.get("/read_review_customer/:id", [validateJWT], ctrl6.read_review_customer);
+router.get("/read_review_product/:id", ctrl6.read_review_product);
 
 module.exports = router;

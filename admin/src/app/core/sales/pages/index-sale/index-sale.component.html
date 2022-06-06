@@ -1,0 +1,70 @@
+<div class="card-header">
+    <div class="row d-flex flex-wrap justify-content-md-between justify-content-center">
+        <div class="col-md-4">
+            <div class="d-flex align-items-center">
+                <span class="text-muted mr-2 mb-0">Desde: </span>
+                <input [(ngModel)]="from" name="from" class="form-control" type="date" >
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex align-items-center">
+                <span class="text-muted mr-2 mb-0">Hasta: </span>
+                <input  [(ngModel)]="to" name="to" class="form-control" type="date" >
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex">
+                <button (click)="filter()" type="button" class="btn btn-primary"><i class="cxi-arrow-vertical"></i> Filtrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-body">
+    <ng-container *ngFor="let item of sales | paginate: { itemsPerPage: 5, currentPage: p }" >
+        <div class="row mt-3 justify-content-between">
+            <div class="col">
+                <h3 class="h5 mb-2 nav-dark">
+                    <a [routerLink]="item._id" class="nav-link">Venta #{{ item.code }}</a>
+                </h3>
+            </div>
+            <div class="col text-right">
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-start">
+                    <ul class="nav nav-muted mb-2 pb-1">
+                        <li class="nav-item mr-2">
+                          <span class="badge badge-dark MR-3">{{ item.customer.first_name }}, {{ item.customer.last_name }}</span>
+                          <span class="text-border px-1">|</span>
+                        </li>
+                        <li class="nav-item mr-2">
+                          <a class="nav-link d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
+                            {{ item.created_at | date }}
+                          </a>
+                          <span class="text-border px-1">|</span>
+                        </li>
+                        <li class="nav-item mr-2">
+                          <span class="d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
+                            <i class="cxi-truck mt-n1 mr-2 font-size-base align-middle"></i>
+                            {{ item.type_delivery }}
+                          </span>
+                        </li>
+                      </ul>
+                      <span class="badge badge-primary">{{ item.status }}</span>
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="d-flex align-items-center">
+                    <span class="h5 d-inline-block mb-0">{{ item.subtotal | currency: 'S/. ' }}</span>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </ng-container>
+</div>
+<div class="card-footer">
+    <pagination-controls previousLabel="Atrás" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
+</div>

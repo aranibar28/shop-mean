@@ -38,6 +38,9 @@ import { IndexDiscountComponent } from './discounts/pages/index-discount/index-d
 import { CreateDiscountComponent } from './discounts/pages/create-discount/create-discount.component';
 import { UpdateDiscountComponent } from './discounts/pages/update-discount/update-discount.component';
 
+import { IndexSaleComponent } from './sales/pages/index-sale/index-sale.component';
+import { DetailsSaleComponent } from './sales/pages/details-sale/details-sale.component';
+
 const childRoutes: Routes = [
   { path: '', component: MainComponent, data: { title: 'Dashboard' } },
   { path: 'profile', component: ProfileComponent, data: { title: 'Perfil' } },
@@ -75,6 +78,9 @@ const childRoutes: Routes = [
   { path: 'discounts', component: IndexDiscountComponent, data: { title: 'Descuentos' } },
   { path: 'discounts/create', component: CreateDiscountComponent, data: { title: 'Descuentos' } },
   { path: 'discounts/update/:id', component: UpdateDiscountComponent , data: { title: 'Descuentos' }},
+
+  { path: 'sales', component: IndexSaleComponent, data: { title: 'Ventas' } },
+  { path: 'sales/:id', component: DetailsSaleComponent, data: { title: 'Ventas' } },
   { path: '**', redirectTo: '' }, 
 ];
 
