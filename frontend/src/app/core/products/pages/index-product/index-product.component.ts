@@ -10,7 +10,8 @@ declare var $: any;
   templateUrl: './index-product.component.html',
 })
 export class IndexProductComponent implements OnInit {
-  public path = environment.url_img_product;
+  public url_img_discount = environment.url_img_discount;
+  public url_img_product = environment.url_img_product;
   public categories: Array<any> = [];
   public products: Array<any> = [];
 

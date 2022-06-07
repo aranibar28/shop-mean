@@ -52,34 +52,21 @@ const kpi_mounth_earnings = async (req, res = response) => {
   var december = 0;
 
   var total_earnings = 0;
-  var total_earnings_month = 0;
-  var count_sales = 0;
-
   var total_earnings_before_month = 0;
   var count_sales_before_month = 0;
+  var total_earnings_month = 0;
+  var count_sales = 0;
 
   var reg = await Sales.find();
   let current_date = new Date();
   let current_year = current_date.getFullYear();
-  let curremt_month = current_date.getMonth() + 1;
+  let current_month = current_date.getMonth() + 1;
 
   for (var item of reg) {
-    let create_date = new Date(item.created_at);
-    let month = create_date.getMonth() + 1;
+    let created_at = new Date(item.created_at);
+    let month = created_at.getMonth() + 1;
 
-    if (create_date.getFullYear() == current_year) {
-      total_earnings = total_earnings + item.subtotal;
-
-      if ((month = curremt_month)) {
-        total_earnings_month = total_earnings_month + item.subtotal;
-        count_sales = count_sales + 1;
-      }
-
-      if (month == curremt_month - 1) {
-        total_earnings_before_month = total_earnings_before_month + item.subtotal;
-        count_sales_before_month = count_sales_before_month + 1;
-      }
-
+    if (created_at.getFullYear() == current_year) {
       if (month == 1) {
         january = january + item.subtotal;
       } else if (month == 2) {
@@ -105,6 +92,18 @@ const kpi_mounth_earnings = async (req, res = response) => {
       } else if (month == 12) {
         december = december + item.subtotal;
       }
+
+      if (month == current_month - 1) {
+        total_earnings_before_month = total_earnings_before_month + item.subtotal;
+        count_sales_before_month = count_sales_before_month + 1;
+      }
+
+      if (month == current_month) {
+        total_earnings_month = total_earnings_month + item.subtotal;
+        count_sales = count_sales + 1;
+      }
+
+      total_earnings = total_earnings + item.subtotal;
     }
   }
   res.status(200).send({
@@ -120,9 +119,9 @@ const kpi_mounth_earnings = async (req, res = response) => {
     october,
     november,
     december,
+    count_sales,
     total_earnings,
     total_earnings_month,
-    count_sales,
     total_earnings_before_month,
     count_sales_before_month,
   });

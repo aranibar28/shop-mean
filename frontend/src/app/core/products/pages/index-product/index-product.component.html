@@ -16,7 +16,7 @@
     <!-- Promo banner -->
     <div *ngIf="discount" class="row mb-5">
       <div class="col-12">
-        <div class="py-5 px-md-5 px-4 bg-size-cover bg-position-center-y" style="background-image: url({{path + discount.banner}})">
+        <div class="py-5 px-md-5 px-4 bg-size-cover bg-position-center-y" style="background-image: url({{url_img_discount + discount.banner}})">
           <div class="mt-md-3 mb-2 pb-2 p-md-2" style="max-width: 28rem">
             <h3 class="mb-2 pb-1 font-size-sm text-uppercase">Desde {{ discount.start_date | date: 'dd/MM' }} hasta {{ discount.finish_date | date: 'dd/MM'}}</h3>
             <h2 class="pb-3">{{ discount.title }}</h2>
@@ -222,7 +222,7 @@
               <div class="card card-product mx-auto">
                 <div class="card-product-img">
                   <a [routerLink]="'/products/'+item.slug" class="card-img-top">
-                    <img [src]="path + item.image" [alt]="item.title">
+                    <img [src]="url_img_product + item.image" [alt]="item.title">
                   </a>
                   <div class="card-product-widgets-top">
                     <span *ngIf="discount" class="badge product-badge badge-danger">-{{ discount.discount }}%</span>

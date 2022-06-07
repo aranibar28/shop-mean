@@ -1,70 +1,62 @@
-<div class="card-header">
-    <div class="row d-flex flex-wrap justify-content-md-between justify-content-center">
-        <div class="col-md-4">
-            <div class="d-flex align-items-center">
-                <span class="text-muted mr-2 mb-0">Desde: </span>
-                <input [(ngModel)]="from" name="from" class="form-control" type="date" >
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h3 class="card-title mb-0"><span class="lstick"></span>Lista de Ventas</h3>
+                <div class="d-flex align-items-center gap-3">
+                    <input [(ngModel)]="from" name="from" class="form-control" type="date">
+                    <input [(ngModel)]="to" name="to" class="form-control mx-md-2" type="date">
+                    <button (click)="filter()" class="btn btn-primary" type="button"><i class="fa fa-sort-amount-asc"></i> Filtrar</button>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="d-flex align-items-center">
-                <span class="text-muted mr-2 mb-0">Hasta: </span>
-                <input  [(ngModel)]="to" name="to" class="form-control" type="date" >
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="d-flex">
-                <button (click)="filter()" type="button" class="btn btn-primary"><i class="cxi-arrow-vertical"></i> Filtrar</button>
-            </div>
-        </div>
-    </div>
-</div>
+            <div>  
+                <div class="table-responsive">
+                    <table class="table table-bordered color-table inverse-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Cliente</th>
+                                <th>Valor</th>
+                                <th>Delivery</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th class="w-1">Acciones</th>
+                            </tr>
+                        </thead>
 
-<div class="card-body">
-    <ng-container *ngFor="let item of sales | paginate: { itemsPerPage: 5, currentPage: p }" >
-        <div class="row mt-3 justify-content-between">
-            <div class="col">
-                <h3 class="h5 mb-2 nav-dark">
-                    <a [routerLink]="item._id" class="nav-link">Venta #{{ item.code }}</a>
-                </h3>
-            </div>
-            <div class="col text-right">
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-start">
-                    <ul class="nav nav-muted mb-2 pb-1">
-                        <li class="nav-item mr-2">
-                          <span class="badge badge-dark MR-3">{{ item.customer.first_name }}, {{ item.customer.last_name }}</span>
-                          <span class="text-border px-1">|</span>
-                        </li>
-                        <li class="nav-item mr-2">
-                          <a class="nav-link d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
-                            {{ item.created_at | date }}
-                          </a>
-                          <span class="text-border px-1">|</span>
-                        </li>
-                        <li class="nav-item mr-2">
-                          <span class="d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
-                            <i class="cxi-truck mt-n1 mr-2 font-size-base align-middle"></i>
-                            {{ item.type_delivery }}
-                          </span>
-                        </li>
-                      </ul>
-                      <span class="badge badge-primary">{{ item.status }}</span>
+                        <ng-container *ngIf="load_data">
+                            <tbody>
+                                <td colspan="8"><span>Cargando...</span></td>
+                            </tbody>
+                        </ng-container>
+
+                        <ng-container *ngIf="!load_data">
+                            <tbody *ngIf="this.sales.length === 0">
+                                <td colspan="8"><span>No hay resultados.</span></td>
+                            </tbody>
+                            <tbody>
+                                <tr *ngFor="let item of sales | paginate: { itemsPerPage: 5, currentPage: p }">
+                                    <td><a [routerLink]="item._id" class="nav-link">Venta #{{ item.code }}</a></td>
+                                    <td>{{ item.customer.first_name }}, {{ item.customer.last_name }}</td>
+                                    <td>{{ item.subtotal | currency: 'S/. ' }}</td>
+                                    <td>{{ item.type_delivery }}</td>
+                                    <td><label class="badge badge-warning">{{ item.status }}</label></td>
+                                    <td>{{ item.created_at | date: 'dd/MM/yy - h:mm a' }}</td>
+                                    <td>
+                                        <a [routerLink]="[item._id]"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
+                                        <a (click)="delete_data(item._id, item.code)"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </table>
                 </div>
-            </div>
-            <div class="col-12 mb-3">
-                <div class="d-flex align-items-center">
-                    <span class="h5 d-inline-block mb-0">{{ item.subtotal | currency: 'S/. ' }}</span>
+                <div class="d-flex justify-content-end">
+                    <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
                 </div>
-            </div>
+            </div>            
         </div>
-        <hr>
-    </ng-container>
-</div>
-<div class="card-footer">
-    <pagination-controls previousLabel="Atrás" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </div>
 </div>

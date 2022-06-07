@@ -22,7 +22,6 @@ export class MainComponent implements OnInit {
   init_data() {
     this.saleService.kpi_mounth_earnings().subscribe({
       next: (res) => {
-        console.log(res);
         this.total_earnings = res.total_earnings;
         this.total_earnings_month = res.total_earnings_month;
         this.count_sales = res.count_sales;
@@ -31,7 +30,7 @@ export class MainComponent implements OnInit {
 
         const ctx = <HTMLCanvasElement>document.getElementById('myChart');
         const myChart = new Chart(ctx, {
-          type: 'bar',
+          type: 'line',
           data: {
             labels: [
               'Enero',

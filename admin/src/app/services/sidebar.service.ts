@@ -11,6 +11,11 @@ export class SidebarService {
       submenu: [{ title: 'Panel', url: '/' }],
     },
     {
+      title: 'Ventas',
+      icon: 'mdi mdi-cart',
+      submenu: [{ title: 'Ventas', url: 'sales' }],
+    },
+    {
       title: 'Usuarios',
       icon: 'mdi mdi-account',
       submenu: [
@@ -20,7 +25,7 @@ export class SidebarService {
     },
     {
       title: 'Suministros',
-      icon: 'mdi mdi-grid',
+      icon: 'mdi mdi-archive',
       submenu: [
         { title: 'Proveedores', url: 'suppliers' },
         { title: 'Categorías', url: 'categories' },
@@ -33,14 +38,6 @@ export class SidebarService {
       submenu: [
         { title: 'Cupones', url: 'coupons' },
         { title: 'Descuentos', url: 'discounts' },
-      ],
-    },
-    {
-      title: 'Ventas',
-      icon: 'mdi mdi-ticket-percent',
-      submenu: [
-        { title: 'Ventas', url: 'sales' },
-        { title: 'Detalles', url: 'sales/sadas' },
       ],
     },
   ];

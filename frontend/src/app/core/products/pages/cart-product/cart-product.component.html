@@ -237,10 +237,11 @@
               <div class="input-group input-group-lg">
                 <input [(ngModel)]="sale.coupon" name="coupon" type="text" id="promo-code" class="form-control" placeholder="Ingresa el código aquí">
                 <div class="input-group-append">
-                  <button (click)="validate_coupon()" [disabled]="status" type="button" class="btn btn-primary">&nbsp;&nbsp;Aplicar&nbsp;&nbsp;</button>
+                  <button (click)="validate_coupon()" type="button" class="btn btn-primary">&nbsp;&nbsp;Aplicar&nbsp;&nbsp;</button>
                 </div>
               </div>
-              <div *ngIf="message" class="alert alert-danger mt-3">{{ message }}</div>
+              <div *ngIf="error_message" class="text-danger">{{ error_message }}</div>
+              <div *ngIf="success_message" class="text-success">{{ success_message }}</div>
             </div>
             <div class="bg-secondary rounded mb-4">
               <div class="border-bottom p-4">

@@ -41,7 +41,8 @@ export class CartProductComponent implements OnInit {
   public load_btn = false;
   public status = false;
   public card_data: any = {};
-  public message = '';
+  public error_message = '';
+  public success_message = '';
   public active: any = undefined;
   public discount = 0;
 
@@ -132,6 +133,7 @@ export class CartProductComponent implements OnInit {
   }
 
   calculate_total(type_delivery: any) {
+    this.discount = 0;
     this.total = this.subtotal + this.price_delivery;
     this.sale.subtotal = this.total;
     this.sale.type_delivery = type_delivery;
@@ -143,34 +145,45 @@ export class CartProductComponent implements OnInit {
   validate_coupon() {
     if (this.sale.coupon) {
       if (this.sale.coupon.toString().length <= 25) {
-        this.message = '';
+        this.error_message = '';
+        this.success_message = '';
         this.cartService.validate_coupon(this.sale.coupon).subscribe({
           next: (res) => {
             if (res.data) {
-              this.message = '';
+              this.error_message = '';
+              if (this.status == true) {
+                return;
+              }
               if (res.data.type == 'Valor Fijo') {
                 this.status = true;
                 this.discount = res.data.value;
                 this.total = this.total - this.discount;
+                this.success_message ='Se ha aplicado un cupón de S/. ' + this.discount;
               } else if (res.data.type == 'Porcentaje') {
                 this.status = true;
                 this.discount = (this.total * res.data.value) / 100;
                 this.total = this.total - this.discount;
+                this.success_message ='Se ha aplicado un cupón de ' + res.data.value + '%';
               }
             } else {
               this.status = false;
-              this.discount = 0;
-              this.message = 'El cupón no se pudo canjear.';
+              this.success_message = '';
+              this.error_message = 'El cupón no se pudo canjear.';
+              this.calculate_total(this.sale.type_delivery);
             }
           },
         });
       } else {
         this.status = false;
-        this.message = 'El cupón debe tener menos de 25 carácteres.';
+        this.success_message = '';
+        this.error_message = 'El cupón debe tener menos de 25 carácteres.';
+        this.calculate_total(this.sale.type_delivery);
       }
     } else {
       this.status = false;
-      this.message = 'El cupón no es válido.';
+      this.success_message = '';
+      this.error_message = 'El cupón no es válido.';
+      this.calculate_total(this.sale.type_delivery);
     }
   }
 
