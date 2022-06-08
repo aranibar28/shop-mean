@@ -44,7 +44,7 @@ export class CartProductComponent implements OnInit {
   public error_message = '';
   public success_message = '';
   public active: any = undefined;
-  public discount = 0;
+  public value_cupon = 0;
 
   constructor(
     private publicService: PublicService,
@@ -80,6 +80,7 @@ export class CartProductComponent implements OnInit {
     this.cartService.get_cart_customer(this.id).subscribe({
       next: (res) => {
         this.cart_items = res.data;
+        this.detail = [];
         this.cart_items.forEach((element) => {
           this.detail.push({
             customer: this.id,
@@ -124,6 +125,7 @@ export class CartProductComponent implements OnInit {
         this.subtotal = this.subtotal + e.product.price * e.quantity;
       });
     } else {
+      this.sale.discount = 1 - this.active.discount / 100;
       this.cart_items.forEach((e) => {
         this.quantity = e.quantity;
         let new_price = e.product.price * (1 - this.active.discount / 100);
@@ -133,15 +135,13 @@ export class CartProductComponent implements OnInit {
   }
 
   calculate_total(type_delivery: any) {
-    this.discount = 0;
+    this.value_cupon = 0;
     this.total = this.subtotal + this.price_delivery;
-    this.sale.subtotal = this.total;
     this.sale.type_delivery = type_delivery;
     this.sale.price_delivery = this.price_delivery;
+    this.sale.subtotal = this.subtotal;
   }
 
-  // !CODE FIJO: SEPTEMBER2022
-  // !CODE PORCENTUAL: MAYO2029
   validate_coupon() {
     if (this.sale.coupon) {
       if (this.sale.coupon.toString().length <= 25) {
@@ -156,14 +156,16 @@ export class CartProductComponent implements OnInit {
               }
               if (res.data.type == 'Valor Fijo') {
                 this.status = true;
-                this.discount = res.data.value;
-                this.total = this.total - this.discount;
-                this.success_message ='Se ha aplicado un cupón de S/. ' + this.discount;
+                this.value_cupon = res.data.value;
+                this.total = this.total - this.value_cupon;
+                this.success_message =
+                  'Se ha aplicado un cupón de S/. ' + this.value_cupon;
               } else if (res.data.type == 'Porcentaje') {
                 this.status = true;
-                this.discount = (this.total * res.data.value) / 100;
-                this.total = this.total - this.discount;
-                this.success_message ='Se ha aplicado un cupón de ' + res.data.value + '%';
+                this.value_cupon = (this.total * res.data.value) / 100;
+                this.total = this.total - this.value_cupon;
+                this.success_message =
+                  'Se ha aplicado un cupón de ' + res.data.value + '%';
               }
             } else {
               this.status = false;
@@ -208,6 +210,7 @@ export class CartProductComponent implements OnInit {
           const order = await actions.order.capture();
           const order_id = order.purchase_units[0].payments.captures[0].id;
           this.sale.transaction = order_id;
+          this.sale.payment_method = 'Paypal';
           this.sale.details = this.detail;
           console.log(this.sale);
           this.cartService.register_sale(this.sale).subscribe({
@@ -231,8 +234,8 @@ export class CartProductComponent implements OnInit {
       .render(this.paypalElement.nativeElement);
   }
 
+  //Visa	4111111111111111 09/2025 123
   init_culqi() {
-    //Visa	4111111111111111 09/2025 123
     if (this.myForm.valid) {
       let expiration = this.card_data.exp.toString().split('/');
 
@@ -248,17 +251,20 @@ export class CartProductComponent implements OnInit {
 
       this.cartService.get_token_culqi(data).subscribe({
         next: (res) => {
+          let parteDecimal = this.total % 1;
+          let parteEntera = this.total - parteDecimal;
+          let total = parteEntera * 100 + parteDecimal;
           let charge = {
-            amount: this.total + '00',
+            amount: parseInt(total + ''),
             currency_code: 'PEN',
             email: this.user.email,
             source_id: res.id,
           };
-
           this.cartService.get_charge_culqi(charge).subscribe({
             next: (res) => {
               this.sale.transaction = res.id;
               this.sale.details = this.detail;
+              this.sale.payment_method = 'Culqi';
               this.cartService.register_sale(this.sale).subscribe({
                 next: (res) => {
                   this.load_btn = false;
@@ -269,6 +275,10 @@ export class CartProductComponent implements OnInit {
                       this.publicService.success('Compra Exitosa con Culqi');
                     },
                   });
+                },
+                error: (err) => {
+                  this.load_btn = false;
+                  console.log(err);
                 },
               });
             },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { PublicService } from 'src/app/services/public.service';
 import { environment } from 'src/environments/environment';
@@ -24,11 +24,11 @@ export class IndexComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.publicService.init_menu();
     this.get_discount();
     this.get_categories();
     this.get_new_products();
     this.get_sales_products();
+    this.publicService.init_menu();
   }
 
   get_discount() {

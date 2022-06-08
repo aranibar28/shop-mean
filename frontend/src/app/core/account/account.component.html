@@ -20,8 +20,8 @@
         <div class="sidebar-sticky-inner">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-1">Annette Black</h5>
-              <p class="card-text text-muted mb-lg-0">ann.black@example.com</p>
+              <h5 class="card-title mb-1">{{ public_user.first_name }}, <br/>{{ public_user.last_name }}</h5>
+              <p class="card-text text-muted mb-lg-0">{{ public_user.email }}</p>
             </div>
             <div id="account-menu" class="collapse d-lg-block">
               <div class="list-group list-group-flush border-top">

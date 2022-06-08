@@ -45,8 +45,9 @@ const register_sale = async (req, res = response) => {
     await Sale_Detail.create(element);
     let product = await Product.findById({ _id: element.product });
     let new_stock = product.stock - element.quantity;
+    let new_sales = product.num_sales + element.quantity;
     // Actualizar stock después de la venta
-    await Product.findByIdAndUpdate({ _id: element.product }, { stock: new_stock });
+    await Product.findByIdAndUpdate({ _id: element.product }, { stock: new_stock, num_sales: new_sales });
     // Limpiar Carrito después de la venta
     await Cart.deleteOne({ customer: data.customer });
   });

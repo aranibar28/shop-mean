@@ -8,6 +8,8 @@ const SaleSchema = Schema({
   type_delivery:  { type: String, required: true },
   price_delivery: { type: Number, required: true },
   transaction:    { type: String, required: true },
+  payment_method: { type: String, required: false },
+  discount:       { type: String, required: false },
   coupon:         { type: String, required: false },
   status:         { type: String, required: true },
   notes:          { type: String, required: false, default: "" },

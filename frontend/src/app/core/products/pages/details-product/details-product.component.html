@@ -65,44 +65,18 @@
               <!-- Rating -->
               <div class="text-sm-right">
                 <div class="star-rating ml-auto">
-                  <i class="sr-star cxi-star-filled active"></i>
-                  <i class="sr-star cxi-star-filled active"></i>
-                  <i class="sr-star cxi-star-filled active"></i>
-                  <i class="sr-star cxi-star-filled active"></i>
-                  <i class="sr-star cxi-star"></i>
+                  <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 1}"></i>
+                  <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 2}"></i>
+                  <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 3}"></i>
+                  <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 4}"></i>
+                  <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 5}"></i>
                 </div>
-                <span class="font-size-sm text-muted">12 reviews</span>
+                <span class="font-size-sm text-muted">{{ reviews.length }} reviews</span>
               </div>
             </div>
 
             <!-- Ordering form -->
             <form class="row">
-              <div class="col-12">
-<!--                 <div class="form-group">
-                  <label for="pink">Color</label>
-                  <div class="d-flex align-items-middle">
-                    <div class="custom-control cs-custom-color-option cs-custom-color-option-sm custom-control-inline mr-2 mb-2">
-                      <input class="custom-control-input" type="radio" name="color" id="pink" value="Pink" data-label="colorOptionText" checked>
-                      <label class="cs-custom-option-label" for="pink">
-                        <span class="cs-color-swatch" style="background-color: #e0aea2;"></span>
-                      </label>
-                    </div>
-                    <div class="custom-control cs-custom-color-option cs-custom-color-option-sm custom-control-inline mr-2 mb-2">
-                      <input class="custom-control-input" type="radio" name="color" id="blue" value="Blue" data-label="colorOptionText">
-                      <label class="cs-custom-option-label" for="blue">
-                        <span class="cs-color-swatch" style="background-color: #c0dded;"></span>
-                      </label>
-                    </div>
-                    <div class="custom-control cs-custom-color-option cs-custom-color-option-sm custom-control-inline mr-2 mb-2">
-                      <input class="custom-control-input" type="radio" name="color" id="yellow" value="Yellow" data-label="colorOptionText">
-                      <label class="cs-custom-option-label" for="yellow">
-                        <span class="cs-color-swatch" style="background-color: #fede41;"></span>
-                      </label>
-                    </div>
-                    <span class="d-inline-block pl-2 text-muted" id="colorOptionText">Pink</span>
-                  </div>
-                </div> -->
-              </div>
               <div class="col-sm-8 order-sm-1 order-2">
                 <div class="form-group">
                   <label for="size">{{ product.name_variety }}</label>
@@ -114,8 +88,7 @@
               </div>
               <div class="col-sm-4 order-sm-2 order-1 text-sm-right">
                 <a href="#modal-sizing" data-toggle="modal" class="d-inline-block mt-sm-0 mb-sm-0 mb-4 pt-sm-2 font-weight-bold text-decoration-0 text-dark">
-                  <i class="cxi-hanger mr-2"></i>
-                  Tallas
+                  <i class="cxi-hanger mr-2"></i> Tallas
                 </a>
               </div>
               <div class="col-lg-2 col-4 order-lg-3 order-3">
@@ -261,12 +234,12 @@
                     <img [src]="path + product.image" class="card-img-top" alt="Product image">
                   </div>  
                   <div class="card-product-widgets-top">
-                    <div class="ml-auto star-rating">
-                      <i class="sr-star cxi-star-filled active"></i>
-                      <i class="sr-star cxi-star-filled active"></i>
-                      <i class="sr-star cxi-star-filled active"></i>
-                      <i class="sr-star cxi-star-filled active"></i>
-                      <i class="sr-star cxi-star"></i>
+                    <div class="star-rating ml-auto">
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 1}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 2}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 3}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 4}"></i>
+                      <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 5}"></i>
                     </div>
                   </div>
                   <div class="card-product-widgets-bottom">
@@ -459,12 +432,12 @@
                   <img [src]="path + product.image" class="card-img-top" alt="Product image">
                 </div>  
                 <div class="card-product-widgets-top">
-                  <div class="ml-auto star-rating">
-                    <i class="sr-star cxi-star-filled active"></i>
-                    <i class="sr-star cxi-star-filled active"></i>
-                    <i class="sr-star cxi-star-filled active"></i>
-                    <i class="sr-star cxi-star-filled active"></i>
-                    <i class="sr-star cxi-star"></i>
+                  <div class="star-rating ml-auto">
+                    <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 1}"></i>
+                    <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 2}"></i>
+                    <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 3}"></i>
+                    <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 4}"></i>
+                    <i class="sr-star cxi-star-filled" [ngClass]="{'active': points_rating >= 5}"></i>
                   </div>
                 </div>
                 <div class="card-product-widgets-bottom">

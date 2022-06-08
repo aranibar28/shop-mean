@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -7,9 +9,22 @@ import Swal from 'sweetalert2';
   templateUrl: './account.component.html',
 })
 export class AccountComponent implements OnInit {
-  constructor(private router: Router) {}
+  public id = localStorage.getItem('x-id');
+  public public_user: any = undefined;
 
-  ngOnInit(): void {}
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.logged();
+  }
+
+  logged() {
+    if (this.authService.user) {
+      this.public_user = JSON.parse(localStorage.getItem('x-user')!);
+    } else {
+      this.public_user = undefined;
+    }
+  }
 
   logout() {
     Swal.fire({
