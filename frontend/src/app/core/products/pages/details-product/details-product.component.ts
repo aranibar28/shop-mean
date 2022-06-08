@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 import { PublicService } from 'src/app/services/public.service';
@@ -19,7 +19,7 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
   public product: any = {};
   public slug: any;
   public p: number = 1;
-  
+
   public five_percent = 0;
   public fourth_percent = 0;
   public three_percent = 0;
@@ -44,7 +44,8 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private publicService: PublicService,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -63,54 +64,69 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
       this.slug = slug;
       this.productService.list_product_by_slug(this.slug).subscribe({
         next: (res) => {
-          this.product = res.data;
-          this.productService.read_review_product(this.product._id).subscribe({
-            next: (res) => {
-              res.data.forEach((element: any) => {
-                if (element.starts == 5) {
-                  this.five_stars = this.five_stars + 1;
-                } else if (element.starts == 4) {
-                  this.fourth_stars = this.fourth_stars + 1;
-                } else if (element.stars == 3) {
-                  this.three_stars = this.three_stars + 1;
-                } else if (element.starts == 2) {
-                  this.two_stars = this.two_stars + 1;
-                } else if (element.starts == 1) {
-                  this.one_stars = this.one_stars + 1;
-                }
-                this.five_percent = (this.five_stars * 100) / res.data.length;
-                this.fourth_percent = (this.fourth_stars * 100) / res.data.length;
-                this.three_percent = (this.three_stars * 100) / res.data.length;
-                this.two_percent = (this.two_stars * 100) / res.data.length;
-                this.one_percent = (this.one_stars * 100) / res.data.length;
+          if (res.data) {
+            this.product = res.data;
+            this.productService
+              .read_review_product(this.product._id)
+              .subscribe({
+                next: (res) => {
+                  res.data.forEach((element: any) => {
+                    if (element.starts == 5) {
+                      this.five_stars = this.five_stars + 1;
+                    } else if (element.starts == 4) {
+                      this.fourth_stars = this.fourth_stars + 1;
+                    } else if (element.stars == 3) {
+                      this.three_stars = this.three_stars + 1;
+                    } else if (element.starts == 2) {
+                      this.two_stars = this.two_stars + 1;
+                    } else if (element.starts == 1) {
+                      this.one_stars = this.one_stars + 1;
+                    }
+                    this.five_percent =
+                      (this.five_stars * 100) / res.data.length;
+                    this.fourth_percent =
+                      (this.fourth_stars * 100) / res.data.length;
+                    this.three_percent =
+                      (this.three_stars * 100) / res.data.length;
+                    this.two_percent = (this.two_stars * 100) / res.data.length;
+                    this.one_percent = (this.one_stars * 100) / res.data.length;
 
-                let five_points = 0;
-                let fourth_points = 0;
-                let three_points = 0;
-                let two_points = 0;
-                let one_points = 0;
+                    let five_points = 0;
+                    let fourth_points = 0;
+                    let three_points = 0;
+                    let two_points = 0;
+                    let one_points = 0;
 
-                five_points = this.five_stars * 5;
-                fourth_points = this.fourth_stars * 4;
-                three_points = this.three_stars * 3;
-                two_points = this.two_stars * 2;
-                one_points = this.one_stars * 1;
+                    five_points = this.five_stars * 5;
+                    fourth_points = this.fourth_stars * 4;
+                    three_points = this.three_stars * 3;
+                    two_points = this.two_stars * 2;
+                    one_points = this.one_stars * 1;
 
-                this.total_points = five_points + fourth_points + three_points + two_points + one_points;
-                this.max_points = res.data.length * 5;
-                this.porcent_rating = (this.total_points * 100) / this.max_points;
-                this.points_rating = (this.porcent_rating * 5) / 100;                
+                    this.total_points =
+                      five_points +
+                      fourth_points +
+                      three_points +
+                      two_points +
+                      one_points;
+                    this.max_points = res.data.length * 5;
+                    this.porcent_rating =
+                      (this.total_points * 100) / this.max_points;
+                    this.points_rating = (this.porcent_rating * 5) / 100;
+                  });
+                  this.reviews = res.data;
+                },
               });
-              this.reviews = res.data;
-            },
-          });
-          this.productService
-            .list_product_recomended(this.product.category?._id)
-            .subscribe({
-              next: (res) => {
-                this.products_recomended = res.data;
-              },
-            });
+            this.productService
+              .list_product_recomended(this.product.category?._id)
+              .subscribe({
+                next: (res) => {
+                  this.products_recomended = res.data;
+                },
+              });
+          } else {
+            this.router.navigateByUrl('/products');
+          }
         },
       });
     });

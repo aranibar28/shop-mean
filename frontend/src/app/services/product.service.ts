@@ -24,7 +24,7 @@ export class ProductService {
   }
 
   list_products(filter: any): Observable<any> {
-    const url = `${base_url}/products/search/${filter}`;
+    const url = `${base_url}/public/list_product_public/${filter}`;
     return this.http.get(url, this.headers);
   }
 

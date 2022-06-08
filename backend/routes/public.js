@@ -16,6 +16,7 @@ router.get("/read_customer_by_id/:id", ctrl1.read_customer_by_id);
 router.put("/update_customer/:id", ctrl1.update_customer);
 
 // Products
+router.get("/list_product_public/:filter?", ctrl2.list_product_public);
 router.get("/list_product_by_slug/:slug", ctrl2.list_product_by_slug);
 router.get("/list_product_recomended/:category", ctrl2.list_product_recomended);
 router.get("/list_product_news", ctrl2.list_product_news);

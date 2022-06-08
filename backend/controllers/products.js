@@ -44,7 +44,24 @@ const create_product = async (req, res = response) => {
 const read_products = async (req, res = response) => {
   let filter = req.params["filter"];
   let [reg, count, total] = await Promise.all([
-    Product.find({ title: new RegExp(filter, "i") })
+    Product.find({ active: new RegExp(filter, "i") })
+      .populate("created_by", "email")
+      .populate("category", "title")
+      .sort({ category: -1 }),
+    Product.find({ title: new RegExp(filter, "i") }).count(),
+    Product.count(),
+  ]);
+  try {
+    res.status(200).json({ data: reg, count, total });
+  } catch (error) {
+    res.status(200).json({ data: undefined });
+  }
+};
+
+const list_product_public = async (req, res = response) => {
+  let filter = req.params["filter"];
+  let [reg, count, total] = await Promise.all([
+    Product.find({ active: new RegExp(filter, "i"), status: true })
       .populate("created_by", "email")
       .populate("category", "title")
       .sort({ category: -1 }),
@@ -179,7 +196,11 @@ const list_product_by_slug = async (req, res = response) => {
   let slug = req.params["slug"];
   try {
     let reg = await Product.findOne({ slug }).populate("category");
-    res.status(200).send({ data: reg });
+    if (reg.status == true) {
+      res.status(200).send({ data: reg });
+    } else {
+      res.status(200).send({ data: undefined });
+    }
   } catch (error) {
     res.status(200).send({ data: undefined });
   }
@@ -223,6 +244,7 @@ module.exports = {
   change_variety,
   add_items_galery,
   del_items_galery,
+  list_product_public,
   list_product_by_slug,
   list_product_news,
   list_product_sales,
